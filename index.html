@@ -274,10 +274,10 @@
             transform:translate(-50%,-50%);
             width:120%; height:120%; pointer-events:none; z-index:3;
         }
-        .progress-ring circle {
+                .progress-ring circle {
             fill:none; stroke:rgba(210,180,130,0.4);
             stroke-width:2; stroke-linecap:round;
-            transition:stroke-dashoffset 0.9s linear;
+            transition:stroke-dashoffset 0.9s linear, stroke 0.7s ease;
         }
 
         /* Countdown */
@@ -729,7 +729,7 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 else{ orbContainer.classList.add('phase-exhale'); phaseLabel.textContent=t('exhale'); }
                 updateProgressRing();
             }
-                                    function updateProgressRing(){
+                                                function updateProgressRing(){
                 const circle=document.getElementById('progressCircle');
                 if(!circle) return;
                 const total=phase==='inhale'?INHALE:phase==='hold'?HOLD:EXHALE;
@@ -740,6 +740,9 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 circle.style.strokeDashoffset=offset;
                 circle.style.transform='rotate(-90deg)';
                 circle.style.transformOrigin='50% 50%';
+                if(phase==='inhale') circle.style.stroke='rgba(160,210,180,0.6)';
+                else if(phase==='hold') circle.style.stroke='rgba(220,190,130,0.6)';
+                else circle.style.stroke='rgba(120,180,150,0.5)';
             }
             function setCues(p){
                 haptic(); chime(p);
@@ -751,7 +754,7 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 }
             }
 
-            function nextPhase(){
+                        function nextPhase(){
                 if(phase==='inhale'){ phase='hold'; timeLeft=HOLD; }
                 else if(phase==='hold'){ phase='exhale'; timeLeft=EXHALE; }
                 else{
@@ -761,12 +764,17 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                     }
                 }
                 updateUI();
+                updateProgressRing();
                 if(running) setCues(phase);
             }
-            function tick(){
+                        function tick(){
                 if(!running || breakActive) return;
-                timeLeft--; updateUI();
-                if(timeLeft<=0) nextPhase();
+                timeLeft--;
+                updateUI();
+                if(timeLeft<=0){
+                    updateProgressRing();
+                    nextPhase();
+                }
             }
 
             function showBreakDialog(){
