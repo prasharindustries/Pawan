@@ -277,7 +277,7 @@
                 .progress-ring circle {
             fill:none; stroke:rgba(210,180,130,0.4);
             stroke-width:2; stroke-linecap:round;
-            transition:stroke-dashoffset 0.9s linear, stroke 0.7s ease;
+                        transition:stroke-dashoffset 1.0s linear, stroke 0.7s ease;
         }
 
         /* Countdown */
@@ -777,8 +777,10 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 }
             }
 
-            function showBreakDialog(){
+                       function showBreakDialog(){
                 breakActive=true;
+                if(window.speechSynthesis) window.speechSynthesis.cancel();
+                speakCalm(t('breakTitle'), lang==='hi');
                 breakDialog.classList.add('active');
                 breakTitle.textContent=t('breakTitle');
                 breakSubtitle.innerHTML=t('breakSubtitle');
@@ -802,15 +804,22 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                     else{ breakSubtitle.innerHTML=`${t('breakCountdown')}<strong>${sec}</strong>`; }
                 },1000);
             }
-            breakContinue.addEventListener('click',()=>{
+                        breakContinue.addEventListener('click',()=>{
                 hideBreakDialog();
-                if(timerId) clearInterval(timerId);
-                timerId=setInterval(tick,1000);
-            });
-            breakRest.addEventListener('click',()=>{
-                doBreakCountdown(()=>{
+                if(window.speechSynthesis) window.speechSynthesis.cancel();
+                doCountdown(()=>{
                     if(timerId) clearInterval(timerId);
                     timerId=setInterval(tick,1000);
+                });
+            });
+                        breakRest.addEventListener('click',()=>{
+                doBreakCountdown(()=>{
+                    hideBreakDialog();
+                    if(window.speechSynthesis) window.speechSynthesis.cancel();
+                    doCountdown(()=>{
+                        if(timerId) clearInterval(timerId);
+                        timerId=setInterval(tick,1000);
+                    });
                 });
             });
 
