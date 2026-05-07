@@ -514,6 +514,7 @@
 
     <!-- PWA hint -->
     <div class="pwa-hint" id="pwaHint">📲 होम स्क्रीन में जोड़ें</div>
+    <div class="pwa-hint" id="tapHint" style="bottom:8rem;">👆 कहीं भी टैप करें</div>
 
     <script>
         (function() {
@@ -835,9 +836,11 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 document.body.style.background='';
             }
 
-                        startBtn.addEventListener('click',()=>{ if(running) pause(); else start(); });
+                                    startBtn.addEventListener('click',()=>{ if(running) pause(); else start(); });
             restartBtn.addEventListener('click', restart);
             document.addEventListener('click',(e)=>{
+                document.getElementById('tapHint').classList.remove('show');
+                localStorage.setItem('pawan-tap-hint','true');
                 if(running || breakActive) return;
                 if(e.target.closest('button') || e.target.closest('.break-dialog')) return;
                 start();
@@ -887,11 +890,17 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                     document.querySelector('meta[name="theme-color"]').content='#e8f0e4'; }
             });
 
-            function showPwa(){
+                 function showPwa(){
                 const standalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
                 const iOS=/iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
                 if(!standalone&&iOS&&!localStorage.getItem('pawan-pwa-v3')){
                     pwaHint.textContent=t('pwaHint'); pwaHint.classList.add('show');
+                }
+                const tapHint=document.getElementById('tapHint');
+                if(!running && !localStorage.getItem('pawan-tap-hint')){
+                    tapHint.textContent=lang==='hi'?'👆 कहीं भी टैप करें':'👆 Tap anywhere to begin';
+                    tapHint.classList.add('show');
+                    setTimeout(()=>tapHint.classList.remove('show'),8000);
                 }
             }
             pwaHint.addEventListener('click',()=>{ pwaHint.classList.remove('show');
