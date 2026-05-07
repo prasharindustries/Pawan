@@ -840,7 +840,7 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 show();
             }
 
-                function start(){
+                            function start(){
                 if(running) return;
                 initAudio();
                 preloadVoices();
@@ -848,7 +848,7 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                     running=true; startBtn.textContent=t('pause');
                     brand.classList.add('visible');
                     startSub.textContent = lang==='hi' ? 'विराम' : 'Pause';
-                    updateUI(); setCues(phase);
+                    updateUI();
                     if(timerId) clearInterval(timerId);
                     timerId=setInterval(tick,1000);
                 });
