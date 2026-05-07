@@ -835,8 +835,13 @@ document.addEventListener('touchstart',preloadVoices,{once:true});
                 document.body.style.background='';
             }
 
-            startBtn.addEventListener('click',()=>{ if(running) pause(); else start(); });
+                        startBtn.addEventListener('click',()=>{ if(running) pause(); else start(); });
             restartBtn.addEventListener('click', restart);
+            document.addEventListener('click',(e)=>{
+                if(running || breakActive) return;
+                if(e.target.closest('button') || e.target.closest('.break-dialog')) return;
+                start();
+            });
 
             function setVisual(){
                 mode='visual'; visualBtn.classList.add('active-mode');
