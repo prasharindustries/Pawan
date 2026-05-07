@@ -146,7 +146,7 @@
         .section-timer { min-height:4.5rem; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
         .section-modes { min-height:2.5rem; display:flex; align-items:center; justify-content:center; gap:0.5rem; flex-shrink:0; }
         .section-start { min-height:3.2rem; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
-        .section-restart { min-height:2.2rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        /* .section-restart { min-height:2.2rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; } */
         .section-audio { min-height:1.2rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 
         /* Grower pushes everything up from center */
@@ -444,16 +444,11 @@
             <button class="btn active-mode" id="audioModeBtn">🎧 ध्वनि</button>
         </div>
 
-        <!-- Start button -->
-        <div class="section-start">
-            <button class="btn btn-start" id="startBtn">🌿 शुरू करें</button>
-            <div class="btn-start-sub" id="startSub">प्रारंभ</div>
-        </div>
-
-        <!-- Restart button -->
-        <div class="section-restart">
-            <button class="btn btn-restart" id="restartBtn">↺ पुनः आरंभ</button>
-        </div>
+        <!-- Start + Restart in one row -->
+<div class="section-start" style="display:flex; gap:0.6rem; align-items:center; justify-content:center; flex-wrap:wrap;">
+    <button class="btn btn-start" id="startBtn">🌿 शुरू करें</button>
+    <button class="btn btn-restart" id="restartBtn">↺ पुनः आरंभ</button>
+</div>
 
         <!-- Audio indicator -->
         <div class="section-audio">
